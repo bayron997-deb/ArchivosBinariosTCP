@@ -1,8 +1,6 @@
 package ServidorTCP;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -47,4 +45,50 @@ public class ServidorTCP {
      * String
      */
     private String file;
+
+    /**
+     *
+     */
+    private DataInputStream dis;
+
+    //Constructor
+
+    public ServidorTCP() {
+    }
+
+    //Metodos
+    /**
+     * Metodoq que tendra todos los procedimientos que hace un servidorTCP
+     */
+    public void servidorTCP(){
+        //Try-Catch para evitar posibles errores
+        try{
+            //Dejamos el objeto en el puerto de comunicacion 60000 (tiene un amplio rango de puertos)
+            servidor = new ServerSocket(60000);
+
+            //crear loop para mantener de manera infinita la comunicacion
+            while (true){
+                //Escucha para establecer una conexion a este socket
+                enchufe = servidor.accept();
+                //Buffer de 1024 bytes
+                datosRecibidos = new byte[1024];
+                //
+                bis = new BufferedInputStream(enchufe.getInputStream());
+                //Leer y escribir datos en el socket
+                dis = new DataInputStream(enchufe.getInputStream());
+                //Recibir nombre del fichero
+                file = dis.readUTF();
+                file = file.substring(file.indexOf('\\')+1,file.length());
+                //Guardar fichero recibido
+                bos = new BufferedOutputStream(new FileOutputStream(file));
+                while ((in=bis.read(datosRecibidos))!=-1){
+                    bos.write(datosRecibidos,0,in);
+                }
+                bos.close();
+                dis.close();
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
 }
