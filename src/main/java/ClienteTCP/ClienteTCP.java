@@ -3,6 +3,7 @@ package ClienteTCP;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Scanner;
 
 public class ClienteTCP {
     //Atributos
@@ -44,7 +45,22 @@ public class ClienteTCP {
     /**
      * Fichero que se quiere transferir
      */
-    final String filename = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosCliente\\Hola.txt.txt";
+    private String filename;
+
+    /**
+     * nombre del coso
+     */
+    private String nombre;
+
+    /**
+     * contenido del coso
+     */
+    private String contenido;
+
+    /**
+     *
+     */
+    private Scanner teclado = new Scanner(System.in);
     //Constructor
 
     public ClienteTCP() {
@@ -53,6 +69,16 @@ public class ClienteTCP {
     //Metodo
     public void clienteTCP(){
         try{
+            //crear un archivo binario
+            System.out.println("introduce un nombre");
+            nombre = teclado.next();
+            FileOutputStream fos = new FileOutputStream("F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosCliente\\"+nombre+".dat");
+            DataOutputStream salida = new DataOutputStream(fos);
+            System.out.println("introduce un contenido");
+            contenido = teclado.next();
+            salida.writeUTF(contenido);
+            filename = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosCliente\\"+nombre+".dat";
+            //enviar un archivo
             final File localFile = new File(filename);
             enchufe = new Socket("localhost",59000);
             bis = new BufferedInputStream(new FileInputStream(localFile));
