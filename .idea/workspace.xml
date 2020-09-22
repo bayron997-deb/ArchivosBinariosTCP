@@ -36,9 +36,23 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Servidor">
+    <configuration name="Cliente" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Ejecutor.Cliente" />
+      <module name="ArchivosBinariosTCP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="Ejecutor.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Servidor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Ejecutor.Servidor" />
       <module name="ArchivosBinariosTCP" />
@@ -54,6 +68,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Cliente" />
         <item itemvalue="Application.Servidor" />
       </list>
     </recent_temporary>
@@ -82,5 +97,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="591" y="537" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1600736396428" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1600740451933">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1600740451933" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1600740451933">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1600740451933" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1600740451933">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1600740451933" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1600740451933">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1600740451933" />
+    <state x="440" y="94" key="SettingsEditor" timestamp="1600740205090">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1600740205090" />
   </component>
 </project>

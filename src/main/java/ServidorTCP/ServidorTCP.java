@@ -64,7 +64,7 @@ public class ServidorTCP {
         //Try-Catch para evitar posibles errores
         try{
             //Dejamos el objeto en el puerto de comunicacion 60000 (tiene un amplio rango de puertos)
-            servidor = new ServerSocket(60000);
+            servidor = new ServerSocket(59000);
 
             //crear loop para mantener de manera infinita la comunicacion
             while (true){

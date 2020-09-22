@@ -44,7 +44,7 @@ public class ClienteTCP {
     /**
      * Fichero que se quiere transferir
      */
-    final String filename = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosCliente\\Hola.txt";
+    final String filename = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosCliente\\Hola.txt.txt";
     //Constructor
 
     public ClienteTCP() {
@@ -54,7 +54,7 @@ public class ClienteTCP {
     public void clienteTCP(){
         try{
             final File localFile = new File(filename);
-            enchufe = new Socket("localhost",60000);
+            enchufe = new Socket("localhost",59000);
             bis = new BufferedInputStream(new FileInputStream(localFile));
             bos = new BufferedOutputStream(enchufe.getOutputStream());
             //Enviar el nombre del fichero
