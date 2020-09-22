@@ -1,10 +1,8 @@
 package ClienteTCP;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class ClienteTCP {
     //Atributos
@@ -42,5 +40,37 @@ public class ClienteTCP {
      * Escribir Tipo de datos primitivos en un flujo de salida
      */
     private DataOutputStream dos;
+
+    /**
+     * Fichero que se quiere transferir
+     */
+    final String filename = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosCliente\\Hola.txt";
+    //Constructor
+
+    public ClienteTCP() {
+    }
+
+    //Metodo
+    public void clienteTCP(){
+        try{
+            final File localFile = new File(filename);
+            enchufe = new Socket("localhost",60000);
+            bis = new BufferedInputStream(new FileInputStream(localFile));
+            bos = new BufferedOutputStream(enchufe.getOutputStream());
+            //Enviar el nombre del fichero
+            dos = new DataOutputStream(enchufe.getOutputStream());
+            dos.writeUTF(localFile.getName());
+            //Enviar fichero
+            byteArray = new byte[8192];
+            while ((in=bis.read(byteArray))!=-1){
+                bos.write(byteArray,0,in);
+            }
+            bis.close();
+            bos.close();
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
 }
+
 
