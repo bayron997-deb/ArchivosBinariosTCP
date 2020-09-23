@@ -21,13 +21,16 @@ public class ClienteTCP {
     private byte[] byteArray;
 
     //Socket para conectar al servidor
-    private Socket enchufe;
+    private Socket cliente;
 
     //Puerto de conexion
     private int port = 65000;
 
     //Direccion Ip maquina
     private String address = "localhost";
+
+    //Flujo de entrada de datos
+    private  DataInputStream dis;
 
     //Flujo de datos de salida
     private DataOutputStream dos;
@@ -40,9 +43,6 @@ public class ClienteTCP {
 
     //varaible para seguir o no con el programa
     private boolean segui = true;
-
-    //seleccion del usuarioo
-    private int seleccion;
 
     //Scanner
     private Scanner teclado = new Scanner(System.in);
@@ -73,20 +73,21 @@ public class ClienteTCP {
                 File localFile = new File(filename);
 
                 //Creamos un socket de transmision en la direccion y puerto especifico
-                enchufe = new Socket(address, port);
+                cliente = new Socket(address, port);
 
                 //Leemos el flujo de datos de localfile y los almacenamos en el buffer de entrada
                 bis = new BufferedInputStream(new FileInputStream(localFile));
                 //almacenamos el flujo de salida del socket
-                bos = new BufferedOutputStream(enchufe.getOutputStream());
+                bos = new BufferedOutputStream(cliente.getOutputStream());
 
-                //Enviar el nombre del fichero
+                //Enviar el nombre del fichero al servidor
 
                 //Crea un flujo de salida de datos para escribir datos
-                dos = new DataOutputStream(enchufe.getOutputStream());//flujo de datos hacia el servidor
+                dos = new DataOutputStream(cliente.getOutputStream());//flujo de datos hacia el servidor
+                //crea un flujo de datos de entrada para leer datos
+                dis = new DataInputStream(cliente.getInputStream());
                 //escribe en UTF el nombre del archivo que se va a transferir
                 dos.writeUTF(localFile.getName());
-
                 //Enviar fichero
 
                 //buffer para leer y escribir bloques de 8kb
@@ -96,20 +97,10 @@ public class ClienteTCP {
                     //almacena los bytes ecritos en byteArray en el buffer de salida
                     bos.write(byteArray, 0, in);
                 }
-
                 //libera recursos y cierra el flujo de entrada
                 bis.close();
                 //libera recursos y cierra el flujo de salida
                 bos.close();
-
-                //Confirmacion para subir otro archivo
-                System.out.println("Desea subir otro archivo 1: si");
-                seleccion = teclado.nextInt();
-                if (seleccion==1){
-                    segui = true;
-                }else{
-                    segui=false;
-                }
             }
         } catch (Exception e) {
             //mensaje de error

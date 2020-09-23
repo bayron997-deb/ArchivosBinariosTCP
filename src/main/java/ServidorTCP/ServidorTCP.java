@@ -10,8 +10,8 @@ public class ServidorTCP {
     //ServerSocket espera a que lleguen solicitudes a travez de la red
     private ServerSocket servidor;
 
-    //Socket para conectar al cliente
-    private Socket enchufe;
+    //Socket cliente
+    private Socket cliente;
 
     //lectura y almacenamiento de datos en buffer entrada
     private BufferedInputStream bis;
@@ -34,6 +34,9 @@ public class ServidorTCP {
     //permite leer tipos de datos primitivos de un flujo de datos de entrada
     private DataInputStream dis;
 
+    //Permite escribir tipo de datos primitivos en un flujo de datos de salida
+    private DataOutputStream dos;
+
     //puerto de conexion
     private int port = 65000;
 
@@ -54,13 +57,15 @@ public class ServidorTCP {
             //crear loop para mantener de manera infinita la comunicacion
             while (true){
                 //Escucha para establecer una conexion a este socket
-                enchufe = servidor.accept();
+                cliente = servidor.accept();
                 //Buffer de 1024 bytes
                 datosRecibidos = new byte[1024];
-                //leemos el flujo de entrada del socket y almacenamos en buffer de entrada
-                bis = new BufferedInputStream(enchufe.getInputStream());
+                //leemos el flujo de entrada del socket cliente y almacenamos en buffer de entrada
+                bis = new BufferedInputStream(cliente.getInputStream());
                 //Leer el flujo de entrada del socket cliente
-                dis = new DataInputStream(enchufe.getInputStream());
+                    dis = new DataInputStream(cliente.getInputStream());
+                //escribir en el flujo de salida del socket cliente
+                dos = new DataOutputStream(cliente.getOutputStream());
                 //Recibimos el nombre en UTF del archivo y creamos un nombre de archivo
                 nombreArchivo = dis.readUTF();
                 //le damos una ruta al archivo
@@ -81,8 +86,11 @@ public class ServidorTCP {
                     bos.close();
                     //libera recursos y cierra el flujo de entrada
                     dis.close();
+                    cliente.close();
                 }else{
-                    System.out.println("ya existe pendejo");
+                    //mensaje si archivo existe
+                    dos.writeUTF("El archivo "+nombreArchivo+" no puede transferirse porque ya existe");
+                    cliente.close();
                 }
 
             }
