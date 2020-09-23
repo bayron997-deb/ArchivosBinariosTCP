@@ -62,7 +62,7 @@ public class ServidorTCP {
                 System.out.println("Cliente aceptado");
 
                 //Buffer de 1024 bytes
-                datosRecibidos = new byte[1024];
+                datosRecibidos = new byte[8192];
 
                 //leemos el flujo de entrada del socket cliente y almacenamos en buffer de entrada
                 bis = new BufferedInputStream(cliente.getInputStream());
@@ -89,31 +89,24 @@ public class ServidorTCP {
                 if (!as.exists()) {
                     dos.writeBoolean(true); //(Mandamos señal al cliente de que no existe el archivo) 1 respuesta
                     System.out.println("No existe archivo con el nombre " + nombreArchivo + "... subiendo archivo");
-
                     //Guardar fichero recibido
+
                     //crea un nuevo buffer de salida con la secuencia de salida de archivo para escribir en el archivo especificado
                     bos = new BufferedOutputStream(new FileOutputStream(file));
-
                     //loop para escribir datatos en el buffer de salida
-                    while ((in = bis.read(datosRecibidos)) != -1) { //lee todos los bytes recibidos hasta que devuelve -1, marca termino del archivo
+                    while ((in = bis.read(datosRecibidos)) != -1) { //lee todos los bytes recibidos hasta que devuelve -1, marca termino del archivo 1 Solicitud
                         //almacena los bytes ecritos en byteArray en el buffer de salida
-                        bos.write(datosRecibidos, 0, in);// 1 Solicitud
+                        bos.write(datosRecibidos, 0, in);
+                        System.out.println("hshhshhshshhs");
                     }
-                    System.out.println("El archivo se ha recibido por completo y sin errores");
-
-                    //Escribe mensaje en el flujo de salido para confirmar el archivo recibido
-                    //pendiente : dos.writeUTF("Servido: se ha recibido el archivo " + nombreArchivo + " con exito\n"); //1R
-
-                    //libera recursos y cierra el flujo de salida
-                    bos.close();
-                    //libera recursos y cierra el flujo de entrada
-                    dis.close();
+                    dos.writeUTF("El archivo se ha recibido por completo y sin errores se llama " + as.getName()); //1 respuesta
+                    System.out.println("El archivo se ha recibido por completo y sin errores");//SOLITUD
                 } else {
                     dos.writeBoolean(false);//(mandamos señal para que no ejecute) 1R
                     System.out.println("Si existe archivo con el nombre " + nombreArchivo);
 
                     //Escribe mensaje en el flujo de salido para confirmar el archivo ya existe
-                    dos.writeUTF("Servidor: no se puede subir el archivo " + nombreArchivo + " porque ya existe\n"); //1R
+                    dos.writeUTF("Servidor: no se puede subir el archivo " + nombreArchivo + " porque ya existe\n"); //1Respuesta
                 }
 
             }

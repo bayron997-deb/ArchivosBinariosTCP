@@ -68,6 +68,9 @@ public class ClienteTCP {
                 //Mostrar contenido directorio
                 mostrarDirectorio();
 
+                //buffer para leer y escribir bloques de 8kb
+                byteArray = new byte[8192];
+
                 //Respuesta
                 nombre = teclado.next();
 
@@ -98,21 +101,14 @@ public class ClienteTCP {
                 if (exito == true) {
                     System.out.println("Servidor acepto su solicitud");
                     //Enviar fichero
-                    //buffer para leer y escribir bloques de 8kb
-                    byteArray = new byte[8192];
+
                     //loop para escribir en bystes
                     while ((in = bis.read(byteArray)) != -1) { //lee todos los bytes hasta que devuelve -1, marca termino del archivo
                         //almacena los bytes ecritos en byteArray en el buffer de salida
                         bos.write(byteArray, 0, in);// 1 solicitud de escritura
+                        System.out.println("ashhashjas");
                     }
-                    System.out.println("El archivo se ha subido ");
-                    //1R
-
-                    //libera recursos y cierra el flujo de entrada
-                    bis.close();
-                    //libera recursos y cierra el flujo de salida
-                    bos.close();
-                    cliente.close();
+                    System.out.println(dis.readUTF());//mensaje de respuesta
                 } else if (exito == false) {
                     System.out.println("Servidor denego su solicitud");
                     //Recibe respuesta del servidor
@@ -126,6 +122,7 @@ public class ClienteTCP {
         } catch (Exception e) {
             //mensaje de error
             System.err.println(e);
+
         }
     }
 
