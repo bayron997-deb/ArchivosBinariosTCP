@@ -38,24 +38,30 @@ public class ClienteTCP {
      */
     private DataOutputStream dos;
 
-    /**
-     * Fichero que se quiere transferir
-     */
+    //ruta del fichero que se quiere transferir
     private String filename;
+
+    //Nombre del archivo que se quiere transferir
     private String nombre;
+
+    //varaible para seguir o no con el programa
     private boolean segui = true;
+
+    //seleccion del usuarioo
     private int seleccion;
 
-    /**
-     *
-     */
+    //Scanner
     private Scanner teclado = new Scanner(System.in);
-    //Constructor
 
+    //Constructor
     public ClienteTCP() {
     }
 
-    //Metodo
+    //Metodos
+
+    /**
+     * Contiene instrucciones que debe ejecutar el cliente
+     */
     public void clienteTCP(){
         try{
             while (segui) {
