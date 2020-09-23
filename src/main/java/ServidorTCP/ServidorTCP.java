@@ -17,11 +17,6 @@ public class ServidorTCP {
     private Socket enchufe;
 
     /**
-     *Escribir Tipo de datos primitivos en un flujo de salida
-     */
-    private DataOutputStream salida;
-
-    /**
      *Proporciona almacenamiento en búfer de datos de entrada
      */
     private BufferedInputStream bis;
@@ -52,7 +47,6 @@ public class ServidorTCP {
     private DataInputStream dis;
 
     //Constructor
-
     public ServidorTCP() {
     }
 
@@ -64,7 +58,7 @@ public class ServidorTCP {
         //Try-Catch para evitar posibles errores
         try{
             //Dejamos el objeto en el puerto de comunicacion 60000 (tiene un amplio rango de puertos)
-            servidor = new ServerSocket(59000);
+            servidor = new ServerSocket(57000);
 
             //crear loop para mantener de manera infinita la comunicacion
             while (true){

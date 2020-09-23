@@ -69,18 +69,11 @@ public class ClienteTCP {
     //Metodo
     public void clienteTCP(){
         try{
-            //crear un archivo binario
-            System.out.println("introduce un nombre");
-            nombre = teclado.next();
-            FileOutputStream fos = new FileOutputStream("F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosCliente\\"+nombre+".dat");
-            DataOutputStream salida = new DataOutputStream(fos);
-            System.out.println("introduce un contenido");
-            contenido = teclado.next();
-            salida.writeUTF(contenido);
-            filename = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosCliente\\"+nombre+".dat";
+            System.out.println("subida de archivo video");
+            filename = "F:\\Tareas\\ArchivosCliente\\video.mp4";
             //enviar un archivo
             final File localFile = new File(filename);
-            enchufe = new Socket("localhost",59000);
+            enchufe = new Socket("localhost",57000);
             bis = new BufferedInputStream(new FileInputStream(localFile));
             bos = new BufferedOutputStream(enchufe.getOutputStream());
             //Enviar el nombre del fichero

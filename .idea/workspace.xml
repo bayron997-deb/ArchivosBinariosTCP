@@ -39,7 +39,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
   </component>
-  <component name="RunManager" selected="Application.Servidor">
+  <component name="RunManager" selected="Application.Cliente">
     <configuration name="Cliente" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Ejecutor.Cliente" />
       <module name="ArchivosBinariosTCP" />
@@ -97,36 +97,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="591" y="537" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1600736396428" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1600741860573">
+    <state width="914" height="297" key="GridCell.Tab.0.bottom" timestamp="1600824701541">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1600741860573" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1600741860573">
+    <state width="914" height="297" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1600824701541" />
+    <state width="914" height="297" key="GridCell.Tab.0.center" timestamp="1600824701541">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1600741860573" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1600741860573">
+    <state width="914" height="297" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1600824701541" />
+    <state width="914" height="297" key="GridCell.Tab.0.left" timestamp="1600824701541">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1600741860573" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1600741860573">
+    <state width="914" height="297" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1600824701541" />
+    <state width="914" height="297" key="GridCell.Tab.0.right" timestamp="1600824701541">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1600741860573" />
-    <state x="440" y="94" key="SettingsEditor" timestamp="1600740205090">
+    <state width="914" height="297" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1600824701541" />
+    <state x="440" y="94" key="SettingsEditor" timestamp="1600814345647">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1600740205090" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/ClienteTCP/ClienteTCP.java</url>
-          <line>68</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1600814345647" />
   </component>
 </project>
