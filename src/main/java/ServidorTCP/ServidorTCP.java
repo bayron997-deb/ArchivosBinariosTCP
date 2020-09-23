@@ -38,59 +38,83 @@ public class ServidorTCP {
     private DataOutputStream dos;
 
     //puerto de conexion
-    private int port = 65000;
+    private int port = 64000;
 
     //Constructor
     public ServidorTCP() {
     }
 
     //Metodos
+
     /**
      * Metodoq que tendra todos los procedimientos que hace un servidorTCP
      */
-    public void servidorTCP(){
+    public void servidorTCP() {
         //Try-Catch para evitar posibles errores
-        try{
+        try {
             //Crea un socket de servidor con el puerto especifico
             servidor = new ServerSocket(port);
 
             //crear loop para mantener de manera infinita la comunicacion
-            while (true){
+            while (true) {
                 //Escucha para establecer una conexion a este socket
                 cliente = servidor.accept();
+                System.out.println("Cliente aceptado");
+
                 //Buffer de 1024 bytes
                 datosRecibidos = new byte[1024];
+
                 //leemos el flujo de entrada del socket cliente y almacenamos en buffer de entrada
                 bis = new BufferedInputStream(cliente.getInputStream());
+
                 //Leer el flujo de entrada del socket cliente
-                    dis = new DataInputStream(cliente.getInputStream());
+                dis = new DataInputStream(cliente.getInputStream());
+
                 //escribir en el flujo de salida del socket cliente
                 dos = new DataOutputStream(cliente.getOutputStream());
+
                 //Recibimos el nombre en UTF del archivo y creamos un nombre de archivo
-                nombreArchivo = dis.readUTF();
+                nombreArchivo = dis.readUTF();//(Recibimos nombre desde el cliente) 1E
+
+                System.out.println("El nombre del archivo a transferir es "+nombreArchivo);
+
                 //le damos una ruta al archivo
-                file = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosServidor\\"+ nombreArchivo;
-                //Crea un nuevo archivo con el nombre que le pasamos en UTF
+                file = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosServidor\\" + nombreArchivo;
+                System.out.println("La ruta del archivo sera "+file);
+
+                //Crea un nuevo archivo con el nombre que le paso el cliente
                 File as = new File(file);
-                //si no existe el archivo ejecuta el if
-                if (!as.exists()){
+
+                //verificador si existe o no el archivo
+                if (!as.exists()) {
+                    dos.writeBoolean(true); //(Mandamos señal al cliente de que no existe el archivo) 1R
+                    System.out.println("No existe archivo con el nombre "+nombreArchivo+"... subiendo archivo");
+
                     //Guardar fichero recibido
                     //crea un nuevo buffer de salida con la secuencia de salida de archivo para escribir en el archivo especificado
                     bos = new BufferedOutputStream(new FileOutputStream(file));
+
                     //loop para escribir datatos en el buffer de salida
-                    while ((in=bis.read(datosRecibidos))!=-1){ //lee todos los bytes recibidos hasta que devuelve -1, marca termino del archivo
+                    while ((in = bis.read(datosRecibidos)) != -1) { //lee todos los bytes recibidos hasta que devuelve -1, marca termino del archivo
                         //almacena los bytes ecritos en byteArray en el buffer de salida
-                        bos.write(datosRecibidos,0,in);
+                        bos.write(datosRecibidos, 0, in);// 1E
                     }
+                    System.out.println("El archivo se ha recibido por completo y sin errores");
+
+                    //Escribe mensaje en el flujo de salido para confirmar el archivo recibido
+                    dos.writeUTF("Servido: se ha recibido el archivo " + nombreArchivo + " con exito\n"); //1R
+
                     //libera recursos y cierra el flujo de salida
                     bos.close();
                     //libera recursos y cierra el flujo de entrada
                     dis.close();
                     cliente.close();
-                }else{
-                    //mensaje si archivo existe
-                    dos.writeUTF("El archivo "+nombreArchivo+" no puede transferirse porque ya existe");
-                    cliente.close();
+                } else {
+                    dos.writeBoolean(false);//(mandamos señal para que no ejecute) 1R
+                    System.out.println("Si existe archivo con el nombre "+nombreArchivo);
+
+                    //Escribe mensaje en el flujo de salido para confirmar el archivo ya existe
+                    dos.writeUTF("Servidor: no se puede subir el archivo " + nombreArchivo + " porque ya existe\n"); //1R
                 }
 
             }
