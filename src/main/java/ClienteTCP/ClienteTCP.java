@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class ClienteTCP {
     //Atributos
-    //lectura y almacenamiento de datos
+    //lectura y almacenamiento de datos en buffer de entrada
     private BufferedInputStream bis;
 
     //Buffer interno para almacenar datos de salida
@@ -97,7 +97,7 @@ public class ClienteTCP {
                     bos.write(byteArray, 0, in);
                 }
 
-                //livera recursos y cierra el flujo de entrada
+                //libera recursos y cierra el flujo de entrada
                 bis.close();
                 //libera recursos y cierra el flujo de salida
                 bos.close();

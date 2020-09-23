@@ -6,45 +6,36 @@ import java.net.Socket;
 
 public class ServidorTCP {
     //Atributos
-    /**
-     *ServerSocket espera a que lleguen solicitudes a travez de la red
-     */
+
+    //ServerSocket espera a que lleguen solicitudes a travez de la red
     private ServerSocket servidor;
 
-    /**
-     *Punto de comunicacion entre dos maquinas
-     */
+    //Socket para conectar al cliente
     private Socket enchufe;
 
-    /**
-     *Proporciona almacenamiento en búfer de datos de entrada
-     */
+    //lectura y almacenamiento de datos en buffer entrada
     private BufferedInputStream bis;
 
-    /**
-     *Proporciona almacenamiento en búfer de datos de salida
-     */
+    //Buffer interno para almacenar datos de salida
     private BufferedOutputStream bos;
 
-    /**
-     *Envuelve un valor de tipo primitivo byte en un objeto
-     */
+    //Envuelve un Array de valores de tipo primitivo byte en un objeto
     private byte[] datosRecibidos;
 
-    /**
-     * Entero
-     */
+    //Numero entero
     private int in;
 
-    /**
-     * String
-     */
+    //String llamado file
     private String file;
 
-    /**
-     *
-     */
+    //String nombre Archivo
+    private String nombreArchivo;
+
+    //permite leer tipos de datos primitivos de un flujo de datos de entrada
     private DataInputStream dis;
+
+    //puerto de conexion
+    private int port = 65000;
 
     //Constructor
     public ServidorTCP() {
@@ -57,8 +48,8 @@ public class ServidorTCP {
     public void servidorTCP(){
         //Try-Catch para evitar posibles errores
         try{
-            //Dejamos el objeto en el puerto de comunicacion 60000 (tiene un amplio rango de puertos)
-            servidor = new ServerSocket(57000);
+            //Crea un socket de servidor con el puerto especifico
+            servidor = new ServerSocket(port);
 
             //crear loop para mantener de manera infinita la comunicacion
             while (true){
@@ -66,21 +57,29 @@ public class ServidorTCP {
                 enchufe = servidor.accept();
                 //Buffer de 1024 bytes
                 datosRecibidos = new byte[1024];
-                //
+                //leemos el flujo de entrada del socket y almacenamos en buffer de entrada
                 bis = new BufferedInputStream(enchufe.getInputStream());
-                //Leer y escribir datos en el socket
+                //Leer el flujo de entrada del socket cliente
                 dis = new DataInputStream(enchufe.getInputStream());
-                //Recibir nombre del fichero
-                file = dis.readUTF();
-                file = file.substring(file.indexOf('\\')+1,file.length());
+                //Recibimos el nombre en UTF del archivo y creamos un nombre de archivo
+                nombreArchivo = dis.readUTF();
+                //le damos una ruta al archivo
+                file = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosServidor\\"+ nombreArchivo;
+                //Crea un nuevo archivo con el nombre que le pasamos en UTF
                 File as = new File(file);
+                //si no existe el archivo ejecuta el if
                 if (!as.exists()){
                     //Guardar fichero recibido
+                    //crea un nuevo buffer de salida con la secuencia de salida de archivo para escribir en el archivo especificado
                     bos = new BufferedOutputStream(new FileOutputStream(file));
-                    while ((in=bis.read(datosRecibidos))!=-1){
+                    //loop para escribir datatos en el buffer de salida
+                    while ((in=bis.read(datosRecibidos))!=-1){ //lee todos los bytes recibidos hasta que devuelve -1, marca termino del archivo
+                        //almacena los bytes ecritos en byteArray en el buffer de salida
                         bos.write(datosRecibidos,0,in);
                     }
+                    //libera recursos y cierra el flujo de salida
                     bos.close();
+                    //libera recursos y cierra el flujo de entrada
                     dis.close();
                 }else{
                     System.out.println("ya existe pendejo");
