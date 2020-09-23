@@ -9,11 +9,6 @@ import java.util.Scanner;
 public class ClienteTCP {
     //Atributos
     /**
-     *Escribir Tipo de datos primitivos en un flujo de entrada
-     */
-    private DataInputStream input;
-
-    /**
      *Proporciona almacenamiento en búfer de datos de entrada
      */
     private BufferedInputStream bis;
@@ -64,8 +59,11 @@ public class ClienteTCP {
     public void clienteTCP(){
         try{
             while (segui) {
+                //Mostrar contenido directorio
                 mostrarDirectorio();
-                System.out.println("Ingrese nombre mas la extension");
+                //Mensaje
+                System.out.println("Ingrese nombre del archivo que quiere subir");
+                //Respuesta
                 nombre = teclado.next();
                 filename = "F:\\Tareas\\ArchivosCliente\\" + nombre;
                 //enviar un archivo
@@ -95,10 +93,18 @@ public class ClienteTCP {
             System.err.println(e);
         }
     }
+
+    /**
+     * Metodo para mostrar contenido del directorio
+     */
     public void mostrarDirectorio(){
+        //Crear objeto de clase File y le pasamos la ruta del directorio
         File directorio = new File("F:\\Tareas\\ArchivosCliente\\");
+        //Almacenamos el contenido del directorio en un arreglo de String
         String[] list = directorio.list();
+        //Ordenamos alfabeticamente
         Arrays.sort(list);
+        //Imprimir contenido del directorio
         for (int i = 0; i < list.length; i++) {
             System.out.println(list[i]);
 
