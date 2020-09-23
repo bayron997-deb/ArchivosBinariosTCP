@@ -3,6 +3,7 @@ package ClienteTCP;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class ClienteTCP {
@@ -46,16 +47,9 @@ public class ClienteTCP {
      * Fichero que se quiere transferir
      */
     private String filename;
-
-    /**
-     * nombre del coso
-     */
     private String nombre;
-
-    /**
-     * contenido del coso
-     */
-    private String contenido;
+    private boolean segui = true;
+    private int seleccion;
 
     /**
      *
@@ -69,25 +63,45 @@ public class ClienteTCP {
     //Metodo
     public void clienteTCP(){
         try{
-            System.out.println("subida de archivo video");
-            filename = "F:\\Tareas\\ArchivosCliente\\video.mp4";
-            //enviar un archivo
-            final File localFile = new File(filename);
-            enchufe = new Socket("localhost",57000);
-            bis = new BufferedInputStream(new FileInputStream(localFile));
-            bos = new BufferedOutputStream(enchufe.getOutputStream());
-            //Enviar el nombre del fichero
-            dos = new DataOutputStream(enchufe.getOutputStream());
-            dos.writeUTF(localFile.getName());
-            //Enviar fichero
-            byteArray = new byte[8192];
-            while ((in=bis.read(byteArray))!=-1){
-                bos.write(byteArray,0,in);
+            while (segui) {
+                mostrarDirectorio();
+                System.out.println("Ingrese nombre mas la extension");
+                nombre = teclado.next();
+                filename = "F:\\Tareas\\ArchivosCliente\\" + nombre;
+                //enviar un archivo
+                final File localFile = new File(filename);
+                enchufe = new Socket("localhost", 57000);
+                bis = new BufferedInputStream(new FileInputStream(localFile));
+                bos = new BufferedOutputStream(enchufe.getOutputStream());
+                //Enviar el nombre del fichero
+                dos = new DataOutputStream(enchufe.getOutputStream());
+                dos.writeUTF(localFile.getName());
+                //Enviar fichero
+                byteArray = new byte[8192];
+                while ((in = bis.read(byteArray)) != -1) {
+                    bos.write(byteArray, 0, in);
+                }
+                bis.close();
+                bos.close();
+                System.out.println("Desea subir otro archivo 1: si");
+                seleccion = teclado.nextInt();
+                if (seleccion==1){
+                    segui = true;
+                }else{
+                    segui=false;
+                }
             }
-            bis.close();
-            bos.close();
         } catch (Exception e) {
             System.err.println(e);
+        }
+    }
+    public void mostrarDirectorio(){
+        File directorio = new File("F:\\Tareas\\ArchivosCliente\\");
+        String[] list = directorio.list();
+        Arrays.sort(list);
+        for (int i = 0; i < list.length; i++) {
+            System.out.println(list[i]);
+
         }
     }
 }

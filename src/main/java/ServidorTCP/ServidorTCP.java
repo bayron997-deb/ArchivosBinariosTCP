@@ -73,13 +73,19 @@ public class ServidorTCP {
                 //Recibir nombre del fichero
                 file = dis.readUTF();
                 file = file.substring(file.indexOf('\\')+1,file.length());
-                //Guardar fichero recibido
-                bos = new BufferedOutputStream(new FileOutputStream(file));
-                while ((in=bis.read(datosRecibidos))!=-1){
-                    bos.write(datosRecibidos,0,in);
+                File as = new File(file);
+                if (!as.exists()){
+                    //Guardar fichero recibido
+                    bos = new BufferedOutputStream(new FileOutputStream(file));
+                    while ((in=bis.read(datosRecibidos))!=-1){
+                        bos.write(datosRecibidos,0,in);
+                    }
+                    bos.close();
+                    dis.close();
+                }else{
+                    System.out.println("ya existe pendejo");
                 }
-                bos.close();
-                dis.close();
+
             }
         } catch (Exception e) {
             System.err.println(e);
