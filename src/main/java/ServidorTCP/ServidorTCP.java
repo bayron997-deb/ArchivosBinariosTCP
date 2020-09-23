@@ -74,21 +74,21 @@ public class ServidorTCP {
                 dos = new DataOutputStream(cliente.getOutputStream());
 
                 //Recibimos el nombre en UTF del archivo y creamos un nombre de archivo
-                nombreArchivo = dis.readUTF();//(Recibimos nombre desde el cliente) 1E
+                nombreArchivo = dis.readUTF();//(Recibimos nombre desde el cliente) 1 solicitud
 
-                System.out.println("El nombre del archivo a transferir es "+nombreArchivo);
+                System.out.println("El nombre del archivo a transferir es " + nombreArchivo);
 
                 //le damos una ruta al archivo
                 file = "F:\\Tareas\\Programacion\\ArchivosBinariosTCP\\ArchivosServidor\\" + nombreArchivo;
-                System.out.println("La ruta del archivo sera "+file);
+                System.out.println("La ruta del archivo sera " + file);
 
-                //Crea un nuevo archivo con el nombre que le paso el cliente
+                //Crea un nuevo archivo con la ruta que le asignamos
                 File as = new File(file);
 
                 //verificador si existe o no el archivo
                 if (!as.exists()) {
-                    dos.writeBoolean(true); //(Mandamos señal al cliente de que no existe el archivo) 1R
-                    System.out.println("No existe archivo con el nombre "+nombreArchivo+"... subiendo archivo");
+                    dos.writeBoolean(true); //(Mandamos señal al cliente de que no existe el archivo) 1 respuesta
+                    System.out.println("No existe archivo con el nombre " + nombreArchivo + "... subiendo archivo");
 
                     //Guardar fichero recibido
                     //crea un nuevo buffer de salida con la secuencia de salida de archivo para escribir en el archivo especificado
@@ -97,21 +97,20 @@ public class ServidorTCP {
                     //loop para escribir datatos en el buffer de salida
                     while ((in = bis.read(datosRecibidos)) != -1) { //lee todos los bytes recibidos hasta que devuelve -1, marca termino del archivo
                         //almacena los bytes ecritos en byteArray en el buffer de salida
-                        bos.write(datosRecibidos, 0, in);// 1E
+                        bos.write(datosRecibidos, 0, in);// 1 Solicitud
                     }
                     System.out.println("El archivo se ha recibido por completo y sin errores");
 
                     //Escribe mensaje en el flujo de salido para confirmar el archivo recibido
-                    dos.writeUTF("Servido: se ha recibido el archivo " + nombreArchivo + " con exito\n"); //1R
+                    //pendiente : dos.writeUTF("Servido: se ha recibido el archivo " + nombreArchivo + " con exito\n"); //1R
 
                     //libera recursos y cierra el flujo de salida
                     bos.close();
                     //libera recursos y cierra el flujo de entrada
                     dis.close();
-                    cliente.close();
                 } else {
                     dos.writeBoolean(false);//(mandamos señal para que no ejecute) 1R
-                    System.out.println("Si existe archivo con el nombre "+nombreArchivo);
+                    System.out.println("Si existe archivo con el nombre " + nombreArchivo);
 
                     //Escribe mensaje en el flujo de salido para confirmar el archivo ya existe
                     dos.writeUTF("Servidor: no se puede subir el archivo " + nombreArchivo + " porque ya existe\n"); //1R

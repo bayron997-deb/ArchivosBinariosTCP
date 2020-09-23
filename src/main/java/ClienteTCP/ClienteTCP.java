@@ -86,15 +86,15 @@ public class ClienteTCP {
 
                 //Enviar el nombre del fichero al servidor
 
-                //Crea un flujo de salida de datos para escribir datos
+                //Crea un flujo de salida  para escribir datos
                 dos = new DataOutputStream(cliente.getOutputStream());//flujo de datos hacia el servidor
                 //crea un flujo de datos de entrada para leer datos
                 dis = new DataInputStream(cliente.getInputStream());//dlujo de datos hacia el cliente
 
                 //escribe en UTF el nombre del archivo que se va a transferir
-                dos.writeUTF(localFile.getName());//(solitamos transferir el archivo pasandole el nombre para que verifique si existe) 1E
+                dos.writeUTF(localFile.getName());//(solitamos transferir el archivo pasandole el nombre para que verifique si existe) 1 solicidad
 
-                boolean exito = dis.readBoolean();// servidor envia señal (1R)
+                boolean exito = dis.readBoolean();// servidor envia señal 1 respuesta
                 if (exito == true) {
                     System.out.println("Servidor acepto su solicitud");
                     //Enviar fichero
@@ -103,7 +103,7 @@ public class ClienteTCP {
                     //loop para escribir en bystes
                     while ((in = bis.read(byteArray)) != -1) { //lee todos los bytes hasta que devuelve -1, marca termino del archivo
                         //almacena los bytes ecritos en byteArray en el buffer de salida
-                        bos.write(byteArray, 0, in);// 1E
+                        bos.write(byteArray, 0, in);// 1 solicitud de escritura
                     }
                     System.out.println("El archivo se ha subido ");
                     //1R
