@@ -107,6 +107,7 @@ public class ClienteTCP {
                     }
                     System.out.println("El archivo se ha subido ");
                     //1R
+
                     //libera recursos y cierra el flujo de entrada
                     bis.close();
                     //libera recursos y cierra el flujo de salida
