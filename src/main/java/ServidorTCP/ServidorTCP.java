@@ -14,10 +14,10 @@ public class ServidorTCP {
     private Socket cliente;
 
     //lectura y almacenamiento de datos en buffer entrada
-    private BufferedInputStream bis;
+    private BufferedInputStream bis = null;
 
     //Buffer interno para almacenar datos de salida
-    private BufferedOutputStream bos;
+    private BufferedOutputStream bos = null;
 
     //Envuelve un Array de valores de tipo primitivo byte en un objeto (1kb)
     private byte[] datosRecibidos = new byte[1024];
@@ -32,10 +32,10 @@ public class ServidorTCP {
     private String nombreArchivo;
 
     //permite leer tipos de datos primitivos de un flujo de datos de entrada
-    private DataInputStream dis;
+    private DataInputStream dis = null;
 
     //Permite escribir tipo de datos primitivos en un flujo de datos de salida
-    private DataOutputStream dos;
+    private DataOutputStream dos = null;
 
     //puerto de conexion
     private int port = 64000;
