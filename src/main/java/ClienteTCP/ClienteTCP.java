@@ -9,19 +9,19 @@ import java.util.Scanner;
 public class ClienteTCP {
     //Atributos
     //lectura y almacenamiento de datos en buffer de entrada
-    private BufferedInputStream bis;
+    private BufferedInputStream bis = null;
 
     //Buffer interno para almacenar datos de salida
-    private BufferedOutputStream bos;
+    private BufferedOutputStream bos=null;
 
     //Numero entero
-    private int in;
+    private int in=9;
 
     //Envuelve un Array de valores de tipo primitivo byte en un objeto ( 8kb )
     private byte[] byteArray = new byte[8192];
 
     //Socket para conectar al servidor
-    private Socket cliente;
+    private Socket cliente = null;
 
     //Puerto de conexion
     private int port = 64000;
@@ -30,16 +30,16 @@ public class ClienteTCP {
     private String address = "localhost";
 
     //Flujo de entrada de datos
-    private DataInputStream dis;
+    private DataInputStream dis=null;
 
     //Flujo de datos de salida
-    private DataOutputStream dos;
+    private DataOutputStream dos=null;
 
     //ruta del fichero que se quiere transferir
-    private String ruta;
+    private String ruta="";
 
     //Nombre del archivo que se quiere transferir
-    private String nombre;
+    private String nombre="";
 
     //varaible para seguir o no con el programa
     private boolean segui = true;
@@ -49,8 +49,8 @@ public class ClienteTCP {
 
     //Respuesta servidor
     private boolean respuesta;
-    //Mensajes
-    private String mensaje;
+    //Mensajes servidor
+    private String mensaje="";
 
     //Constructor
     public ClienteTCP() {
@@ -114,6 +114,7 @@ public class ClienteTCP {
                     bos.close();
                     dos.close();
                     dis.close();
+                    cliente.close();
                 }
                 //Si respuesta es no valida Existe un archivo con igual nombre
                 if (respuesta == false) {
@@ -126,6 +127,7 @@ public class ClienteTCP {
                     bos.close();
                     dos.close();
                     dis.close();
+                    cliente.close();
 
                 }
             }

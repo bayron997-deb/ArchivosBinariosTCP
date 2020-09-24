@@ -37,6 +37,9 @@ public class ServidorTCP {
     //Permite escribir tipo de datos primitivos en un flujo de datos de salida
     private DataOutputStream dos = null;
 
+    //Objeto tipo FIle
+    private File archivo = null;
+
     //puerto de conexion
     private int port = 64000;
 
@@ -97,7 +100,7 @@ public class ServidorTCP {
                     bos = new BufferedOutputStream(new FileOutputStream(ruta));
 
                     //Loop que lee todos los datos recibidos
-                    while ((in = bis.read(datosRecibidos))!= -1){ //-----------------> recibe los datos que el cliente escribe
+                    while ((in = bis.read(datosRecibidos))!= -1){ //-----------------> recibe los datos que el cliente escribe (-1 indica final de la secuencia de datos recibidos)
                         //almacena los bytes ecritos en byteArray en el buffer de salida
                         bos.write(datosRecibidos,0,in);
                     }
@@ -106,15 +109,22 @@ public class ServidorTCP {
                     bos.close();
                     dos.close();
                     dis.close();
+                    cliente.close();
                     System.out.println("El archivo se ha recibido por completo y sin errores");
+                    System.out.println("Cliente desonectado");
                 } else {
                     //Mensaje al servidor
                     dos.writeBoolean(false); //------------------------------> Responder con un boleano a cliente si se puede procesar su solicitud
+
                     dos.writeUTF("El archivo '"+archivoRecibo.getName()+"' ya existe en el servidor"+"\n");//-----------> solicitud de respuesta al cliente
+
                     System.out.println("Servidor contiene el archivo");
+
                     //cerrar los flujos de datos
                     dos.close();
                     dis.close();
+                    cliente.close();
+                    System.out.println("Cliente desonectado");
                 }
             }
         } catch (Exception e) {
