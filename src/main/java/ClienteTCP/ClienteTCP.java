@@ -17,8 +17,8 @@ public class ClienteTCP {
     //Numero entero
     private int in;
 
-    //Envuelve un Array de valores de tipo primitivo byte en un objeto
-    private byte[] byteArray;
+    //Envuelve un Array de valores de tipo primitivo byte en un objeto ( 8kb )
+    private byte[] byteArray = new byte[8192];
 
     //Socket para conectar al servidor
     private Socket cliente;
@@ -36,7 +36,7 @@ public class ClienteTCP {
     private DataOutputStream dos;
 
     //ruta del fichero que se quiere transferir
-    private String filename;
+    private String ruta;
 
     //Nombre del archivo que se quiere transferir
     private String nombre;
@@ -47,8 +47,10 @@ public class ClienteTCP {
     //Scanner
     private Scanner teclado = new Scanner(System.in);
 
-    //mensajes del sistema
-    private String exito2, fracaso;
+    //Respuesta servidor
+    private boolean respuesta;
+    //Mensajes
+    private String mensaje;
 
     //Constructor
     public ClienteTCP() {
@@ -62,62 +64,70 @@ public class ClienteTCP {
     public void clienteTCP() {
         try {
             while (segui) {
-                //Mensaje del archivo que se quiere transferir
-                System.out.println("Ingrese nombre del archivo que quiere subir: ");
+                //Socket cliente en una direccion y puertoo especifico
+                cliente = new Socket(address, port); //(se conecta)***
 
-                //Mostrar contenido directorio
-                mostrarDirectorio();
+                //Menu de seleccion
+                menu();
 
-                //buffer para leer y escribir bloques de 8kb
-                byteArray = new byte[8192];
-
-                //Respuesta
+                //Respuesta del archivo que se quiere transferir
                 nombre = teclado.next();
 
                 //ruta del archivo que se va a transferir
-                filename = "F:\\Tareas\\ArchivosCliente\\" + nombre;
-                //Crear un archivo con la ruta que le pasan
-                File localFile = new File(filename);
+                ruta = "F:\\Tareas\\ArchivosCliente\\" + nombre;
 
-                //Creamos un socket de transmision en la direccion y puerto especifico
-                cliente = new Socket(address, port); //(se conecta)***
+                //Crear un archivo con la ruta
+                File archivoEnvio = new File(ruta);
 
-                //Leemos el flujo de datos de localfile y los almacenamos en el buffer de entrada
-                bis = new BufferedInputStream(new FileInputStream(localFile));
-                //almacenamos el flujo de salida del socket
+
+                //Creamos un nuevo buffer para leer y almacenar los datos de archivoEnvio
+                bis = new BufferedInputStream(new FileInputStream(archivoEnvio));
+                //Creamos un nuevo buffer para almacenar y escribir en el flujo de salida del socket
                 bos = new BufferedOutputStream(cliente.getOutputStream());
 
-                //Enviar el nombre del fichero al servidor
+                //Crea un flujo de salida  para escribir datos en la entrada del socket
+                dos = new DataOutputStream(cliente.getOutputStream());//---------------------->flujo de datos hacia el servidor desde cliente
+                //crea un flujo de datos de entrada para leer datos de la salida del socket
+                dis = new DataInputStream(cliente.getInputStream()); //----------------------->flujo de datos desde servidor a cliente
 
-                //Crea un flujo de salida  para escribir datos
-                dos = new DataOutputStream(cliente.getOutputStream());//flujo de datos hacia el servidor
-                //crea un flujo de datos de entrada para leer datos
-                dis = new DataInputStream(cliente.getInputStream());//dlujo de datos hacia el cliente
+                //Envio de nombre de archivo que se quiere pasar
 
                 //escribe en UTF el nombre del archivo que se va a transferir
-                dos.writeUTF(localFile.getName());//(solitamos transferir el archivo pasandole el nombre para que verifique si existe) 1 solicidad
+                dos.writeUTF(archivoEnvio.getName());//---------------------------------> Primera solicitud de cliente a servido. ¿Puedo subir este archivo?
 
-                boolean exito = dis.readBoolean();// servidor envia señal 1 respuesta
-                if (exito == true) {
-                    System.out.println("Servidor acepto su solicitud");
+                //Respuesta del servdor a la solicitud
+                respuesta = dis.readBoolean();//---------------------------->Almacena la respuesta del servidor si se puede
+
+                //Si Respuesta es valida no existe archivo con igual nombre
+                if (respuesta == true) {
+                    System.out.println("Servidor aceptó su solicitud");
+
                     //Enviar fichero
 
-                    //loop para escribir en bystes
-                    while ((in = bis.read(byteArray)) != -1) { //lee todos los bytes hasta que devuelve -1, marca termino del archivo
+                    //loop para escribir en bytes
+                    while ((in = bis.read(byteArray)) != -1) { //lee todos los bytes hasta que devuelve -1 que marca termino del archivo
                         //almacena los bytes ecritos en byteArray en el buffer de salida
-                        bos.write(byteArray, 0, in);// 1 solicitud de escritura
-                        System.out.println("ashhashjas");
+                        bos.write(byteArray, 0, in);//--------------------------------------->Solicitud de escritura
                     }
-                    System.out.println(dis.readUTF());//mensaje de respuesta
-                } else if (exito == false) {
-                    System.out.println("Servidor denego su solicitud");
-                    //Recibe respuesta del servidor
-                    fracaso = dis.readUTF(); //(respuesta negariva) 1R
-                    //imprime por pantalla
-                    System.out.println(fracaso);
+                    //cerrar los flujos de datos
+                    bis.close();
+                    bos.close();
+                    dos.close();
+                    dis.close();
                 }
-                //cerramos conexion
+                //Si respuesta es no valida Existe un archivo con igual nombre
+                if (respuesta == false) {
+                    //recibir flujo de datos de salida del servidor
+                    mensaje = dis.readUTF();//--------------> recibimos solicitud de respuesta de confirmacion
+                    //mensaje del servidor
+                    System.out.println(mensaje);
+                    //cerrar los flujos de datos
+                    bis.close();
+                    bos.close();
+                    dos.close();
+                    dis.close();
 
+                }
             }
         } catch (Exception e) {
             //mensaje de error
@@ -141,6 +151,14 @@ public class ClienteTCP {
             System.out.println(list[i]);
 
         }
+    }
+
+    public void menu() {
+        //Mensaje del archivo que se quiere transferir
+        System.out.println("En su directorio tiene estos archivos");
+        //Mostrar contenido directorio
+        mostrarDirectorio();
+        System.out.println("Ingrese el nombre del archivo que desea transferir al servidor");
     }
 }
 
