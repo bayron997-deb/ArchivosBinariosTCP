@@ -7,11 +7,11 @@ import java.net.Socket;
 public class ServidorTCP {
     //Atributos
 
-    //ServerSocket espera a que lleguen solicitudes a travez de la red
-    private ServerSocket servidor;
+    //ServerSocket espera a que lleguen solicitudes a traves de la red
+    private ServerSocket servidor=null;
 
     //Socket cliente
-    private Socket cliente;
+    private Socket cliente=null;
 
     //lectura y almacenamiento de datos en buffer entrada
     private BufferedInputStream bis = null;
@@ -36,9 +36,6 @@ public class ServidorTCP {
 
     //Permite escribir tipo de datos primitivos en un flujo de datos de salida
     private DataOutputStream dos = null;
-
-    //Objeto tipo FIle
-    private File archivo = null;
 
     //puerto de conexion
     private int port = 64000;
@@ -76,7 +73,7 @@ public class ServidorTCP {
                 //Recibo nombre de cliente
 
                 //Recibimos el nombre en UTF del archivo
-                nombreArchivo = dis.readUTF();//Recibimos la informacion de la primera solicitud
+                nombreArchivo = dis.readUTF();//----------------->Recibimos la informacion de la primera solicitud
 
                 System.out.println("El nombre del archivo a transferir es " + nombreArchivo);
 
